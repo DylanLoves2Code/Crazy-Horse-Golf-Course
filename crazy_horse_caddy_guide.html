@@ -1,0 +1,1242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crazy Horse Ranch — Caddy Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root {
+    --green-deep:  #1a2e1c;
+    --green-mid:   #2d5016;
+    --green-light: #4a7c2b;
+    --fairway:     #7ab648;
+    --sand:        #c8a96e;
+    --sand-light:  #e8d5a3;
+    --cream:       #f5f0e8;
+    --bark:        #3d2b1f;
+    --sky:         #e8f4f8;
+    --danger:      #c0392b;
+    --caution:     #e67e22;
+    --safe:        #27ae60;
+    --text-main:   #1a1a1a;
+    --text-sub:    #555;
+    --border:      #d4c9b0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Inter', sans-serif;
+    background: var(--cream);
+    color: var(--text-main);
+    line-height: 1.6;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    background: var(--green-deep);
+    color: #fff;
+    padding: 60px 24px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 30px,
+      rgba(74,124,43,0.08) 30px,
+      rgba(74,124,43,0.08) 60px
+    );
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--fairway);
+    margin-bottom: 12px;
+    position: relative;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.1;
+    position: relative;
+    margin-bottom: 8px;
+  }
+  .hero h1 span { color: var(--sand); }
+  .hero-sub {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.65);
+    max-width: 540px;
+    margin: 12px auto 0;
+    position: relative;
+  }
+
+  /* ─── BAG CARD ─── */
+  .bag-section {
+    background: var(--green-mid);
+    color: #fff;
+    padding: 32px 24px;
+  }
+  .bag-inner {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .bag-title {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--fairway);
+    margin-bottom: 16px;
+  }
+  .bag-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .club-chip {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 6px;
+    padding: 8px 14px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 80px;
+  }
+  .club-chip .club-name {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--sand-light);
+    letter-spacing: 0.05em;
+  }
+  .club-chip .club-dist {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    line-height: 1.2;
+  }
+  .club-chip .club-unit {
+    font-size: 10px;
+    color: rgba(255,255,255,0.5);
+  }
+
+  /* ─── COURSE INFO ─── */
+  .course-info {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .info-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+  }
+  .info-card .label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-sub);
+    margin-bottom: 6px;
+  }
+  .info-card .value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--green-mid);
+  }
+  .info-card .note {
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-top: 4px;
+  }
+
+  /* ─── MAP ─── */
+  .map-section {
+    max-width: 960px;
+    margin: 0 auto 8px;
+    padding: 0 24px;
+  }
+  .section-header {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--green-deep);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-header::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+  .map-embed {
+    width: 100%;
+    height: 360px;
+    border: none;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  /* ─── HOLE CARDS ─── */
+  .holes-section {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 24px 24px 48px;
+  }
+  .nine-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-sub);
+    margin: 32px 0 12px;
+    padding-left: 4px;
+  }
+  .hole-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    margin-bottom: 16px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+  .hole-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,0.1); }
+  .hole-header {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+  }
+  .hole-number-block {
+    background: var(--green-mid);
+    color: #fff;
+    padding: 20px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    flex-shrink: 0;
+  }
+  .hole-num-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+  }
+  .hole-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1;
+    color: var(--sand-light);
+  }
+  .hole-meta {
+    padding: 16px 20px;
+    flex: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .meta-item { display: flex; flex-direction: column; }
+  .meta-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-sub);
+  }
+  .meta-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--green-deep);
+  }
+  .par-badge {
+    background: var(--green-light);
+    color: #fff;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 20px;
+    margin-left: auto;
+  }
+  .par-badge.par3 { background: #2980b9; }
+  .par-badge.par5 { background: #8e44ad; }
+
+  .hole-body {
+    padding: 16px 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  @media (max-width: 600px) {
+    .hole-body { grid-template-columns: 1fr; }
+    .hole-num { font-size: 1.7rem; }
+  }
+  .strategy-block h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+  }
+  .strategy-block p {
+    font-size: 0.88rem;
+    color: var(--text-main);
+    line-height: 1.55;
+  }
+  .shot-plan {
+    background: var(--sky);
+    border-radius: 8px;
+    padding: 12px 14px;
+  }
+  .shot-plan h4 {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: #2c7da0;
+    margin-bottom: 10px;
+  }
+  .shot-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(44,125,160,0.15);
+    font-size: 0.83rem;
+  }
+  .shot-row:last-child { border-bottom: none; }
+  .shot-label { color: var(--text-sub); }
+  .shot-club {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 500;
+    color: var(--green-mid);
+    font-size: 0.82rem;
+  }
+  .hazard-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+  }
+  .tag {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 12px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .tag.danger { background: #fde8e8; color: var(--danger); border: 1px solid #f5c6c6; }
+  .tag.caution { background: #fef3e2; color: #a0540b; border: 1px solid #f0d090; }
+  .tag.ok { background: #e8f8ee; color: #1a6b3a; border: 1px solid #a8ddb8; }
+  .green-note {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: #fffbe6;
+    border-left: 3px solid var(--sand);
+    border-radius: 0 6px 6px 0;
+    font-size: 0.82rem;
+    color: #6b5b1a;
+  }
+
+  /* ─── AI ADVISOR ─── */
+  .ai-section {
+    max-width: 960px;
+    margin: 0 auto 48px;
+    padding: 0 24px;
+  }
+  .ai-box {
+    background: var(--green-deep);
+    border-radius: 16px;
+    padding: 32px;
+    color: #fff;
+  }
+  .ai-box h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    margin-bottom: 6px;
+  }
+  .ai-box .ai-desc {
+    color: rgba(255,255,255,0.65);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+  .ai-input-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  .ai-input {
+    flex: 1;
+    min-width: 200px;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.25);
+    border-radius: 8px;
+    padding: 12px 16px;
+    color: #fff;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    outline: none;
+    transition: border-color 0.2s;
+  }
+  .ai-input::placeholder { color: rgba(255,255,255,0.4); }
+  .ai-input:focus { border-color: var(--fairway); }
+  .ai-btn {
+    background: var(--fairway);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 24px;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+  }
+  .ai-btn:hover { background: var(--green-light); }
+  .ai-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+  .ai-response {
+    margin-top: 20px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 10px;
+    padding: 20px;
+    font-size: 0.9rem;
+    line-height: 1.7;
+    color: rgba(255,255,255,0.9);
+    min-height: 60px;
+    white-space: pre-wrap;
+    display: none;
+  }
+  .ai-response.visible { display: block; }
+  .typing-indicator { color: var(--fairway); font-style: italic; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 32px 24px;
+    font-size: 12px;
+    color: var(--text-sub);
+    border-top: 1px solid var(--border);
+  }
+  footer a { color: var(--green-light); text-decoration: none; }
+</style>
+</head>
+<body>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div class="hero-eyebrow">475 San Juan Grade Rd · Salinas, CA 93906</div>
+  <h1>The Club at <span>Crazy Horse</span> Ranch</h1>
+  <p class="hero-sub">Your personalized caddy guide — hole-by-hole strategy built around your bag, the course's elevation changes, tight tree-lined fairways, and famously fast small greens.</p>
+</section>
+
+<!-- ── BAG ── -->
+<section class="bag-section">
+  <div class="bag-inner">
+    <div class="bag-title">⛳ Your Stock Distances</div>
+    <div class="bag-grid">
+      <div class="club-chip"><span class="club-name">Driver</span><span class="club-dist">230</span><span class="club-unit">yds</span></div>
+      <div class="club-chip"><span class="club-name">4 Hybrid</span><span class="club-dist">210</span><span class="club-unit">yds</span></div>
+      <div class="club-chip"><span class="club-name">7 Iron</span><span class="club-dist">155</span><span class="club-unit">yds</span></div>
+      <div class="club-chip"><span class="club-name">8 Iron</span><span class="club-dist">145</span><span class="club-unit">yds</span></div>
+      <div class="club-chip"><span class="club-name">9 Iron</span><span class="club-dist">135</span><span class="club-unit">yds</span></div>
+      <div class="club-chip"><span class="club-name">PW</span><span class="club-dist">125</span><span class="club-unit">yds</span></div>
+      <div class="club-chip"><span class="club-name">GW</span><span class="club-dist">100</span><span class="club-unit">yds</span></div>
+      <div class="club-chip"><span class="club-name">SW</span><span class="club-dist">70</span><span class="club-unit">yds</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── COURSE INFO ── -->
+<div class="course-info">
+  <div class="info-card">
+    <div class="label">Total Yards (Blue)</div>
+    <div class="value">6,106</div>
+    <div class="note">Par 72 · Jack Fleming, 1925</div>
+  </div>
+  <div class="info-card">
+    <div class="label">Course Rating / Slope</div>
+    <div class="value">69.7 / 131</div>
+    <div class="note">Blue tees (Men)</div>
+  </div>
+  <div class="info-card">
+    <div class="label">Greens Grass</div>
+    <div class="value">Rye</div>
+    <div class="note">Fast, sloped, small — leave below the hole</div>
+  </div>
+  <div class="info-card">
+    <div class="label">Front Nine</div>
+    <div class="value">Hilly</div>
+    <div class="note">Tight, elevation changes, treacherous</div>
+  </div>
+  <div class="info-card">
+    <div class="label">Back Nine</div>
+    <div class="value">Parkland</div>
+    <div class="note">More tree-lined, gentler terrain</div>
+  </div>
+  <div class="info-card">
+    <div class="label">Hole 18</div>
+    <div class="value">Scenic</div>
+    <div class="note">Elevated tee, valley views, bunkers right</div>
+  </div>
+</div>
+
+<!-- ── MAP ── -->
+<section class="map-section">
+  <div class="section-header">Course Location</div>
+  <iframe
+    class="map-embed"
+    loading="lazy"
+    allowfullscreen
+    referrerpolicy="no-referrer-when-downgrade"
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3162.2!2d-121.6058!3d36.7338!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x808e3df6e4e5b9a5%3A0xd0c4f3c98b4b8b1e!2sThe%20Club%20at%20Crazy%20Horse%20Ranch!5e1!3m2!1sen!2sus!4v1700000000000!5m2!1sen!2sus">
+  </iframe>
+  <p style="font-size:12px;color:var(--text-sub);margin-top:8px;">
+    475 San Juan Grade Rd, Salinas, CA 93906 · (831) 449-6617 · <a href="https://www.google.com/maps/search/The+Club+at+Crazy+Horse+Ranch+Salinas+CA" target="_blank" style="color:var(--green-light)">Open full map →</a>
+  </p>
+</section>
+
+<!-- ── HOLE CARDS ── -->
+<section class="holes-section">
+  <div class="section-header">Hole-by-Hole Caddy Guide</div>
+  <p style="font-size:0.88rem;color:var(--text-sub);margin-bottom:8px;">
+    Club recommendations are based on your stock numbers. Adjust for wind (Salinas afternoons can gust 15–25 mph), uphill/downhill lies, and pin position. All yardages from Blue tees.
+  </p>
+
+  <div class="nine-label">— Front Nine —</div>
+
+  <!-- HOLE 1 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">1</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">458</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">5</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">7</span></div>
+        <span class="par-badge par5">Par 5</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>A welcoming mid-length par 5 to open your round. The front nine is hillier than the back, so settle in with a controlled tee shot. Fairway bunkers and mature trees line this layout — favor the center of the fairway over any heroics off the tee.</p>
+        <div class="hazard-tags">
+          <span class="tag caution">Tree-lined</span>
+          <span class="tag ok">Reachable in 3</span>
+        </div>
+        <div class="green-note">🏌️ Green is small and fast — approach from below the flag. Two-tier greens throughout the front are common here.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver — center fairway</span></div>
+        <div class="shot-row"><span class="shot-label">Layup (remaining ~228)</span><span class="shot-club">4 Hybrid → 100 yds out</span></div>
+        <div class="shot-row"><span class="shot-label">Approach</span><span class="shot-club">GW (100 yds)</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Front-center of green</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 2 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">2</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">136</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">3</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">17</span></div>
+        <span class="par-badge par3">Par 3</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Short par 3 — the easiest on the course by handicap. Don't get cute; a mid-iron safely to the center of the green. The greens at Crazy Horse are their best feature — rye grass putting surfaces that are fast and true, but break more than they appear. Read carefully.</p>
+        <div class="hazard-tags">
+          <span class="tag ok">Easiest hole</span>
+          <span class="tag caution">Small green</span>
+        </div>
+        <div class="green-note">🎯 Green is fast. Land softly, aim center. Do NOT go long — slopes will run you away from the flag.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">9 Iron (135 yds) — club down</span></div>
+        <div class="shot-row"><span class="shot-label">Wind adj.</span><span class="shot-club">PW if into wind</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Center of green</span></div>
+        <div class="shot-row"><span class="shot-label">Miss</span><span class="shot-club">Short is better than long</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 3 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">3</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">351</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">15</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Short par 4 — hitting driver leaves a tricky short wedge from tight lies. Consider laying up with a 4 Hybrid (210 yds) to leave a comfortable full-swing GW. Trees crowd both sides on the front nine. Precision off the tee is rewarded here more than distance.</p>
+        <div class="hazard-tags">
+          <span class="tag caution">Tree-lined both sides</span>
+          <span class="tag ok">Birdie chance</span>
+        </div>
+        <div class="green-note">🎯 Short approach from 100–125 yds — GW or PW to middle of green. Don't feed a short pitch from a bad lie.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot Option A</span><span class="shot-club">4 Hybrid → 140 yds left</span></div>
+        <div class="shot-row"><span class="shot-label">Tee Shot Option B</span><span class="shot-club">Driver (carefully down fairway)</span></div>
+        <div class="shot-row"><span class="shot-label">Approach (140 yds)</span><span class="shot-club">8 Iron</span></div>
+        <div class="shot-row"><span class="shot-label">Approach (120 yds)</span><span class="shot-club">PW</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 4 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">4</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">328</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">3</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>One of the tougher holes despite its short length — ranked #3 on the card. The elevation changes on the front nine are precipitous, and this hole likely plays uphill or around a feature that makes the effective distance longer. Don't be fooled by the number. Placement matters.</p>
+        <div class="hazard-tags">
+          <span class="tag danger">HCP #3 — Difficulty spike</span>
+          <span class="tag caution">Elevation change</span>
+        </div>
+        <div class="green-note">🏔️ Play to middle of the green. Front nine greens are notably small — any approach that doesn't hold center leaves a tough putt or worse.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">4 Hybrid or 3W — keep it in play</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~118 yds)</span><span class="shot-club">PW (125 yds, choke down)</span></div>
+        <div class="shot-row"><span class="shot-label">Adjust uphill</span><span class="shot-club">Add 1 club for elevation</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Fat part of green, not pins</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 5 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">5</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">190</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">3</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">9</span></div>
+        <span class="par-badge par3">Par 3</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>The signature hole. GolfNow describes this as "an exhilarating, big-drop par 3" — elevated tee with significant drop to the green below. This means the ball will fly farther than your stock number. Club down. The view here is one of the most memorable moments on the course. Take it in.</p>
+        <div class="hazard-tags">
+          <span class="tag danger">190 yds — long par 3</span>
+          <span class="tag caution">Big elevation drop</span>
+          <span class="tag ok">Club down 1–2</span>
+        </div>
+        <div class="green-note">⬇️ Elevated tee = ball flies farther. Your 4 Hybrid goes 210 — with downhill effect, this plays like ~165–170. Use 7 Iron or smooth 4H. Land softly, center green.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Effective play distance</span><span class="shot-club">~165–170 yds (downhill)</span></div>
+        <div class="shot-row"><span class="shot-label">Club Selection</span><span class="shot-club">7 Iron (155) or smooth 4H</span></div>
+        <div class="shot-row"><span class="shot-label">Ball flight</span><span class="shot-club">High, soft landing</span></div>
+        <div class="shot-row"><span class="shot-label">Miss</span><span class="shot-club">Short-center beats long</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 6 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">6</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">310</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">13</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Another short par 4 where driver can leave you in trouble. Hitting 4 Hybrid off the tee leaves a comfortable 100-yard GW approach into a green you can attack. The course rewards course management over bomb-and-gouge on the front nine especially.</p>
+        <div class="hazard-tags">
+          <span class="tag caution">Driver may run through</span>
+          <span class="tag ok">GW approach opportunity</span>
+        </div>
+        <div class="green-note">🎯 Leave yourself 100 yds — your GW stock number. Rye greens accept a full wedge better than a partial. Set the yardage, commit, hold center.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">4 Hybrid (210 yds)</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~100 yds)</span><span class="shot-club">GW — full swing</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Middle of green</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 7 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">7</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">335</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">1</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>The hardest hole on the course — handicap #1. Only 335 yards but rated the most demanding. Likely involves a severely narrow fairway, water, a creek crossing, or doglegged routing with trees on both sides. The bridge seen in course photos may be on or near this hole. Course management is everything here.</p>
+        <div class="hazard-tags">
+          <span class="tag danger">HCP #1 — Hardest hole</span>
+          <span class="tag danger">Potential water/creek</span>
+          <span class="tag caution">Tree-lined, tight</span>
+        </div>
+        <div class="green-note">⚠️ Play for bogey if needed — do NOT try to hero this one. Lay up to a comfortable wedge distance, take your medicine, and two-putt for a 5.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">4 Hybrid — center, safe side</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~125 yds)</span><span class="shot-club">PW — aim at center green</span></div>
+        <div class="shot-row"><span class="shot-label">Strategy</span><span class="shot-club">Bogey is a win on HCP #1</span></div>
+        <div class="shot-row"><span class="shot-label">Avoid</span><span class="shot-club">Left of fairway / water side</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 8 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">8</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">345</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">5</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Mid-length par 4 ranked 5th hardest. Coming off the toughest hole, reset your rhythm here. A controlled driver leaves about 115 yards in, a full PW distance. The front nine is wrapping up — stay disciplined through the turn.</p>
+        <div class="hazard-tags">
+          <span class="tag caution">HCP #5</span>
+          <span class="tag ok">Driver in play</span>
+        </div>
+        <div class="green-note">🎯 Driver + PW is the play. Land your approach in the middle-front of the green and let pace do the work. Rye greens are fast — don't attack back pins.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver (230 yds)</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~115 yds)</span><span class="shot-club">PW (125) — choke down slightly</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Front-center green</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 9 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">9</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~380</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">11</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>The 9th tee is where the course suggests calling ahead to the Saddle Club Restaurant to order at the turn. The front nine is hillier and tighter — this hole closes out that character. Drive down the fairway and play your approach into the green for a solid front nine finish. Transition hole into the gentler back nine.</p>
+        <div class="hazard-tags">
+          <span class="tag caution">Closing front nine</span>
+          <span class="tag ok">Call restaurant at this tee</span>
+        </div>
+        <div class="green-note">📞 Pro tip: Call the Saddle Club at the 9th tee — (831) 449-6617 — to order food for the turn. Signature move at Crazy Horse.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver — center fairway</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~150 yds)</span><span class="shot-club">7 Iron (155 yds)</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Center green, below the pin</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="nine-label">— Back Nine — (Parkland Style, Gentler Terrain, More Tree-Lined)</div>
+
+  <!-- HOLE 10 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">10</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~510</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">5</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">8</span></div>
+        <span class="par-badge par5">Par 5</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Back nine opens with a par 5 — back nine plays more parkland style with tree-lined fairways but gentler elevation changes. Drive aggressively down the chute. Two shots to layup position, then wedge in. The back nine is your scoring opportunity — you'll feel more comfortable here.</p>
+        <div class="hazard-tags">
+          <span class="tag caution">Tree-lined fairway</span>
+          <span class="tag ok">Back nine scoring starts</span>
+        </div>
+        <div class="green-note">🏌️ Three-shot par 5 for you. Driver → 4H → GW into center. Resist going for it in two — 280 yds left after driver is too much risk in tree-lined terrain.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver — center fairway</span></div>
+        <div class="shot-row"><span class="shot-label">2nd Shot (~280 left)</span><span class="shot-club">4 Hybrid → 100 yds out</span></div>
+        <div class="shot-row"><span class="shot-label">3rd Shot</span><span class="shot-club">GW (100 yds) — center green</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 11 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">11</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~165</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">3</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">16</span></div>
+        <span class="par-badge par3">Par 3</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Mid-length par 3 on the back nine. The back nine par 3s tend to be tree-lined with smaller greens. Commit to a full iron and aim at the center of the green — no hero shots at tucked pins. Rye greens here will be fast and true.</p>
+        <div class="hazard-tags">
+          <span class="tag caution">Trees flanking green</span>
+          <span class="tag ok">Club up if into wind</span>
+        </div>
+        <div class="green-note">🎯 7 Iron stock at 155 — this plays 165. Smooth 4H or hard 7 Iron. Don't short-side yourself left or right into trees.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Smooth 4 Hybrid or firm 7 Iron</span></div>
+        <div class="shot-row"><span class="shot-label">Wind factor</span><span class="shot-club">Add 1 club into wind (Salinas!)</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Center green, not pins</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 12 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">12</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~360</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">12</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Mid-length par 4 on the back. The back nine fairways have more trees hemming in the landing zones but the terrain is flatter. A driver here leaves a 9 Iron approach — comfortable full-swing territory. Take aim at center of the green, leave your birdie putt from below the hole.</p>
+        <div class="hazard-tags">
+          <span class="tag ok">Birdie opportunity</span>
+          <span class="tag caution">Tree-lined fairway</span>
+        </div>
+        <div class="green-note">⬇️ Back nine greens — still fast Rye grass. Leave your approach below the hole. Uphill putts are infinitely more controllable than downhill ones at Crazy Horse.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver — aim center</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~130 yds)</span><span class="shot-club">9 Iron (135 yds)</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Below the pin — leave uphill putt</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 13 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">13</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~400</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">4</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>One of the toughest on the back — HCP #4. Longer par 4 at ~400 yards leaves about 170 in after a good drive, which is beyond your stock 7 Iron. This hole likely features a demanding approach angle, bunkers, or tree trouble near the green. Play conservatively and take a par.</p>
+        <div class="hazard-tags">
+          <span class="tag danger">HCP #4 — Tough par 4</span>
+          <span class="tag caution">Long approach</span>
+        </div>
+        <div class="green-note">⚠️ Driver + 4 Hybrid (at 170 remaining) is your combo. The Hybrid approach may not hold a small green — plan for a chip or putt from the fringe. Par is a great score here.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver — keep it in play</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~170 yds)</span><span class="shot-club">4 Hybrid (210) — smooth swing</span></div>
+        <div class="shot-row"><span class="shot-label">Alternative</span><span class="shot-club">Layup → GW if fairway blocked</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Front of green — take par</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 14 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">14</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~340</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">10</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Mid-back nine par 4 that's average difficulty. Driver + short iron is the formula. Back nine has water hazards on occasion — stay alert to the right or left side based on the hole's routing. At 6,000-yard courses, the defense is in the angles and the small greens, not raw length.</p>
+        <div class="hazard-tags">
+          <span class="tag ok">Driver in play</span>
+          <span class="tag caution">Possible water feature</span>
+        </div>
+        <div class="green-note">🎯 Driver leaves ~110 yds. PW (125) or GW (100) based on exact distance. Trust your wedges — this is a scoring hole for your yardages.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~110 yds)</span><span class="shot-club">GW (100) or choked PW</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Center-front of green</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 15 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">15</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~155</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">3</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">18</span></div>
+        <span class="par-badge par3">Par 3</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Easiest hole on the back nine — handicap #18. Comfortable par 3 at your 7 Iron distance. Finish strong heading into the last three holes. These back-nine par 3s tend to be flat to the green. Standard par 3 execution: pick your target, commit, swing.</p>
+        <div class="hazard-tags">
+          <span class="tag ok">HCP #18 — Makeable</span>
+          <span class="tag ok">7 Iron distance</span>
+        </div>
+        <div class="green-note">🎯 7 Iron stock at 155 yds. Straight shot. Aim center of green. Calm swing, trust your number. Birdie opportunity if putting is on.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">7 Iron — full, committed swing</span></div>
+        <div class="shot-row"><span class="shot-label">Wind adjust</span><span class="shot-club">8 Iron downwind / 4H into stiff wind</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Center green — birdie putt</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 16 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">16</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~470</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">5</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">6</span></div>
+        <span class="par-badge par5">Par 5</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Par 5 — last par 5 on the course. Three shots is the smart play. The back nine is tree-lined parkland style. Take driver, use 4 Hybrid to layup to 100 yards, then gap wedge to attack the green. Don't get greedy in two — trees at this level of course reward conservative play.</p>
+        <div class="hazard-tags">
+          <span class="tag ok">Birdie opportunity</span>
+          <span class="tag caution">Trees both sides</span>
+        </div>
+        <div class="green-note">🏌️ Driver → 4H (to 100 out) → GW. Three smooth swings beats two heroic ones. Two-putt for birdie.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver — center fairway</span></div>
+        <div class="shot-row"><span class="shot-label">2nd (~240 left)</span><span class="shot-club">4 Hybrid → leaves 100 yds</span></div>
+        <div class="shot-row"><span class="shot-label">3rd Shot</span><span class="shot-club">GW — commit to center green</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 17 -->
+  <div class="hole-card">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--bark)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">17</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~375</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">2</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>Hole Overview</h4>
+        <p>Second hardest on the course. A demanding par 4 heading into the finale — this hole likely features tight tree corridors and/or a tricky approach into a protected green. Don't press here. A solid bogey finish sets up a great 18th hole experience without ruining your score.</p>
+        <div class="hazard-tags">
+          <span class="tag danger">HCP #2 — 2nd hardest</span>
+          <span class="tag caution">Tight approach</span>
+        </div>
+        <div class="green-note">⚠️ Driver → 8 Iron approach (~145 yds). 8 Iron is your most reliable iron — trust it here over trying to bomb something closer. Green center, par or bogey is fine.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver or 4H — keep in play</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~145 yds)</span><span class="shot-club">8 Iron — full swing</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Center of green — safety first</span></div>
+        <div class="shot-row"><span class="shot-label">Accept</span><span class="shot-club">Bogey here is a good score</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- HOLE 18 -->
+  <div class="hole-card" style="border:2px solid var(--green-mid)">
+    <div class="hole-header">
+      <div class="hole-number-block" style="background:var(--green-deep)">
+        <span class="hole-num-label">Hole</span>
+        <span class="hole-num">18</span>
+      </div>
+      <div class="hole-meta">
+        <div class="meta-item"><span class="meta-label">Yards</span><span class="meta-value">~415</span></div>
+        <div class="meta-item"><span class="meta-label">Par</span><span class="meta-value">4</span></div>
+        <div class="meta-item"><span class="meta-label">Handicap</span><span class="meta-value">14</span></div>
+        <span class="par-badge">Par 4</span>
+      </div>
+    </div>
+    <div class="hole-body">
+      <div class="strategy-block">
+        <h4>The Finisher</h4>
+        <p>The course description says the 18th features "a stunning view of Salinas Valley from an elevated tee. The fairway slopes downhill to a well protected green guarded on the left with trees and on the right with bunkers." This is a genuinely beautiful closing hole. Take a moment on the tee to enjoy the view — then plot your shot.</p>
+        <div class="hazard-tags">
+          <span class="tag danger">Bunkers — right</span>
+          <span class="tag danger">Trees — left</span>
+          <span class="tag caution">Downhill — plays shorter</span>
+          <span class="tag ok">Scenic elevated tee</span>
+        </div>
+        <div class="green-note">🌄 Downhill fairway = ball carries further. Aim left-center of fairway to stay away from right bunkers. Approach into protected green — aim center, not at pins. Finish strong.</div>
+      </div>
+      <div class="shot-plan">
+        <h4>Shot Plan</h4>
+        <div class="shot-row"><span class="shot-label">Tee Shot</span><span class="shot-club">Driver — LEFT-CENTER of fairway</span></div>
+        <div class="shot-row"><span class="shot-label">Avoid</span><span class="shot-club">Right side → bunkers</span></div>
+        <div class="shot-row"><span class="shot-label">Remaining (~185 yds)</span><span class="shot-club">4 Hybrid (downhill — plays ~175)</span></div>
+        <div class="shot-row"><span class="shot-label">Target</span><span class="shot-club">Center green — avoid left trees, right bunkers</span></div>
+        <div class="shot-row"><span class="shot-label">Finish</span><span class="shot-club">Two-putt for par. Close it out. 🏌️</span></div>
+      </div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ── AI ADVISOR ── -->
+<section class="ai-section">
+  <div class="ai-box">
+    <h2>Ask the AI Caddy 🤖</h2>
+    <p class="ai-desc">Ask anything about course strategy — specific holes, wind adjustments, pin placements, scoring tips, or club selections for your numbers. Powered by Claude.</p>
+    <div class="ai-input-row">
+      <input class="ai-input" id="aiInput" type="text" placeholder="e.g. 'What if I'm playing into a 20 mph headwind on hole 5?' or 'How do I two-putt the fast greens?'" />
+      <button class="ai-btn" id="aiBtn" onclick="askCaddy()">Ask Caddy</button>
+    </div>
+    <div class="ai-response" id="aiResponse"></div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>The Club at Crazy Horse Ranch · 475 San Juan Grade Rd, Salinas, CA 93906 · (831) 449-6617</p>
+  <p style="margin-top:8px;">Strategy guide built for your distances: Driver 230 · 4H 210 · 7i 155 · 8i 145 · 9i 135 · PW 125 · GW 100 · SW 70</p>
+  <p style="margin-top:8px;font-size:11px;color:#aaa;">Yardages from Blue tees (6,106 yds · 69.7/131). Back nine yardages are estimated — confirm on course scorecard. Always verify with local knowledge.</p>
+</footer>
+
+<script>
+  const BAG = {
+    driver: 230, hybrid4: 210, iron7: 155, iron8: 145, iron9: 135, pw: 125, gw: 100, sw: 70
+  };
+
+  const SYSTEM_PROMPT = `You are an expert golf caddy for The Club at Crazy Horse Ranch in Salinas, CA. You have deep knowledge of this specific course.
+
+KEY COURSE FACTS:
+- 18 holes, par 72, 6,106 yards (Blue tees), Rating 69.7, Slope 131
+- Designed 1925, Jack Fleming. Rye grass greens and fairways.
+- Front nine: hilly, tight, tree-lined, precipitous elevation changes. Back nine: parkland style, gentler, more tree-lined corridors.
+- Greens are SMALL and FAST — a signature of the course. Always aim center, leave putts below the hole.
+- Hole 5 is the famous signature "big-drop" par 3 — elevated tee with significant downhill drop to the green.
+- Hole 18 has elevated tee with Salinas Valley views, bunkers right, trees left, downhill fairway.
+- Hole 7 is HCP #1 (hardest). Hole 17 is HCP #2. Hole 4 is HCP #3. Hole 13 is HCP #4.
+- Salinas afternoons commonly see 15–25 mph winds — adjust club selection significantly.
+- Water hazards exist on the course (creek with bridge visible in photos).
+
+THE GOLFER'S BAG (stock distances):
+- Driver: 230 yards
+- 4 Hybrid: 210 yards  
+- 7 Iron: 155 yards
+- 8 Iron: 145 yards
+- 9 Iron: 135 yards
+- Pitching Wedge (PW): 125 yards
+- Gap Wedge (GW): 100 yards
+- Sand Wedge (SW): 70 yards
+
+PUTTING/GREEN STRATEGY:
+- Rye greens are fast — downhill putts are dangerous
+- Always try to leave approach shots below the hole
+- Small greens = approach to center, not at pins
+- Greens rated by reviewers as a top feature of the course — they are well maintained
+
+Answer with specific, practical advice tailored to this golfer's exact distances and this specific course. Be direct and confident like a real caddy. Keep responses concise but complete (2-4 paragraphs max).`;
+
+  async function askCaddy() {
+    const input = document.getElementById('aiInput');
+    const btn = document.getElementById('aiBtn');
+    const responseEl = document.getElementById('aiResponse');
+    const question = input.value.trim();
+
+    if (!question) return;
+
+    btn.disabled = true;
+    btn.textContent = 'Thinking...';
+    responseEl.className = 'ai-response visible';
+    responseEl.innerHTML = '<span class="typing-indicator">Your caddy is thinking...</span>';
+
+    try {
+      const res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 1000,
+          system: SYSTEM_PROMPT,
+          messages: [{ role: 'user', content: question }]
+        })
+      });
+
+      const data = await res.json();
+      const text = data.content?.map(b => b.text || '').join('') || 'No response received.';
+      responseEl.textContent = text;
+    } catch (err) {
+      responseEl.textContent = 'Error contacting the AI caddy. Make sure you\'re running this on claude.ai or a platform with the Anthropic API available.';
+    }
+
+    btn.disabled = false;
+    btn.textContent = 'Ask Caddy';
+  }
+
+  // Allow Enter key
+  document.getElementById('aiInput').addEventListener('keydown', e => {
+    if (e.key === 'Enter') askCaddy();
+  });
+</script>
+
+</body>
+</html>
